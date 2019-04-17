@@ -1,7 +1,10 @@
 body {
     padding: 0;
     margin: 0;
-    background-color: rgba(146, 187, 238, 0.4);
+    background: linear-gradient(30deg, rgba(123, 200, 231, 0.5), rgba(211, 155, 233, 0.5));
     width: 100vw;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
