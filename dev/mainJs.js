@@ -22,43 +22,113 @@ const game = {
         this.width = width;
         this.height = this.width * 1.1;
 
-        // Adding game to parent element
-        // Dodac metody sprawdzajace czy wartosc minimalna szewrokosci i wys jest spełniobna
-
-        let container = this.htmlElementsCreator.createMainContainer(this.width, this.height);
+        // Setting proper elements styles valuse
+        this.htmlElementsCreator.setStyles(this.width, this.height);
+        // Creating game to parent element
+        let container = this.htmlElementsCreator.createMainContainer();
+        //  Creating div to store menu elements
         let div = document.createElement(`div`);
-
-        div.appendChild(this.htmlElementsCreator.createDifficultyLevelSelectElement(this.width, this.height));
-        div.appendChild(this.htmlElementsCreator.createStartGameElement(this.width, this.height));
-
+        // Creating and adding menu elements to store div
+        div.appendChild(this.htmlElementsCreator.createDifficultyLevelSelectElement());
+        div.appendChild(this.htmlElementsCreator.createStartGameElement());
+        // Adding game main element to container
         container.appendChild(div);
-        container.appendChild(this.htmlElementsCreator.createGameBoardElement(this.width, this.height));
-
+        // Creating and adding game board to container
+        container.appendChild(this.htmlElementsCreator.createGameBoardElement());
+        // Adding container containing game element to given parent html element
         this.parentElement.appendChild(container);
 
     },
 
+
     htmlElementsCreator: {
+
+        containerStyle: {
+            backgroundColor: `rgba(52, 179, 168,0.3)`,
+            borderRadius: `20px`,
+            display: `flex`,
+            justifyContent: `center`,
+            alignItems: `center`,
+            flexDirection: `column`
+        },
+
+        startButtonStyle: {
+            fontSize: `15px`,
+            margin: `10px 10px`,
+            color: `rgba(255,255,255,0.8)`,
+            backgroundColor: `rgba(0,0,0,.2)`,
+            borderRadius: `10px`,
+            float: `right`,
+            fontFamily: `Sans-serif`,
+            fontWeight: `700`,
+            display: `flex`,
+            justifyContent: `center`,
+            alignItems: `center`
+        },
+
+        difficultySelectStyle: {
+            backgroundColor: `rgba(255,255,255,1)`,
+            margin: `10px 10px`
+        },
+
+        gameBoardStyle: {
+            backgroundColor: `rgba(255,255,255,1)`,
+            margin: `10px 10px`
+        },
+
+        /**
+       *  Calculating proper css values of css styles
+       * @param {number} width
+       * @param {number} height
+       */
+        setStyles(width, height) {
+
+            this.setStyleProperValues(this.containerStyle, width, height);
+            this.setStyleProperValues(this.startButtonStyle, width * 0.3, height * 0.05);
+            this.setStyleProperValues(this.difficultySelectStyle, width * 0.3, height * 0.05);
+            this.setStyleProperValues(this.gameBoardStyle, width * 0.9, width * 0.9);
+
+        },
+
+        // Calculates style values depending on width and height
+        setStyleProperValues(style, width, height) {
+
+            style.width = `${width}px`;
+            style.height = `${height}px`;
+
+            // Calculate font size if style has fontSize property in it
+            if (`fontSize` in style) {
+                style.fontSize = `${width * 0.13}px`;
+            }
+
+        },
+
+        /**
+         *  Add given css styles to given html element
+         * @param {object} styles
+         * @param {HTML element} element
+         */
+        addStyles(styles, element) {
+
+            Object.keys(styles).forEach((key, index) => {
+                element.style[`${key}`] = `${styles[`${key}`]}`;
+            });
+
+        },
+
         /**
          * Create and return game main container element
          * @param {number} width
          * @param {number} height
          * @return {HTML element}
          */
-        createMainContainer(width, height) {
+        createMainContainer() {
 
-            let container = document.createElement(`div`);
-            container.style.width = `${width}px`;
-            container.style.height = `${height}px`;
-            container.style.backgroundColor = `rgba(52, 179, 168,0.3)`;
-            container.style.borderRadius = `20px`;
-            container.style.display = `flex`;
-            container.style.justifyContent = `center`;
-            container.style.alignItems = `center`;
-            container.style.flexDirection = `column`;
+            let element = document.createElement(`div`);
+            // Adding css styles to element
+            this.addStyles(this.containerStyle, element);
 
-
-            return container;
+            return element;
 
         },
 
@@ -71,10 +141,8 @@ const game = {
         createDifficultyLevelSelectElement(width, height) {
 
             let element = document.createElement(`select`);
-            element.style.width = `${width * 0.2}px`;
-            element.style.height = `${height * 0.05}px`;
-            element.style.backgroundColor = `rgba(255,255,255,1)`;
-            element.style.margin = `${width * 0.01}px ${width * 0.01}px `;
+            // Adding css styles to element
+            this.addStyles(this.difficultySelectStyle, element);
 
             return element
 
@@ -89,35 +157,28 @@ const game = {
         createStartGameElement(width, height) {
 
             let element = document.createElement(`div`);
-            element.style.width = `${width * 0.2}px`;
-            element.style.height = `${height * 0.05}px`;
-            element.style.backgroundColor = `rgba(255,255,255,1)`;
-            element.style.float = `right`;
-            element.style.margin = `${width * 0.01}px ${width * 0.01}px `;
+            element.appendChild(document.createTextNode(`START`));
+            // Adding css styles to element
+            this.addStyles(this.startButtonStyle, element);
 
             return element
-
 
         },
 
+        /**
+         * Create and return empty game board
+         * @param {number} width
+         * @param {number} height
+         */
         createGameBoardElement(width, height) {
 
             let element = document.createElement(`div`);
-            element.style.width = `${width * 0.9}px`;
-            element.style.height = `${height * 0.9}px`;
-            element.style.backgroundColor = `rgba(255,255,255,1)`;
-            element.style.margin = `${width * 0.01}px ${width * 0.01}px `;
+            // Adding css styles to element
+            this.addStyles(this.gameBoardStyle, element);
 
             return element
 
-
         }
-
-
-        // create levevdificulty
-        // create start/ stop
-        // create gamePanel
-        // setGame - ustawia i wyswietla w elemencie partent
 
     }
 
