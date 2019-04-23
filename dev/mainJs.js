@@ -5,7 +5,7 @@ const game = {
     parentElement: null,
     width: `500px`,
     height: `600px`,
-    difficultyLevel: `easy`,
+    difficultyLevel: `Easy`,
     maze: [],
     playerPosition: [1, 1],
     endPosition: [9, 9],
@@ -41,7 +41,7 @@ const game = {
         this.parentElement.appendChild(container);
 
         // Setting evetns
-        this.eventsManager.setEvents();
+        this.eventsManager.setEvents(this.difficultyLevel);
 
     },
 
@@ -81,10 +81,12 @@ const game = {
         },
 
         gameBoardStyle: {
-            backgroundColor: `rgba(255,255,255,1)`,
+            // backgroundColor: `rgba(255,255,255,1)`,
+            backgroundColor: `rgba(105,105,155,.3)`,
             margin: `10px 10px`,
             width: `90%`,
-            height: `80%`
+            height: `80%`,
+            borderRadius: `5px`
         },
 
 
@@ -192,9 +194,10 @@ const game = {
         /**
          *  Sets all elements events
          */
-        setEvents() {
+        setEvents(difficulty) {
 
             this.startButton();
+            this.selectDifficulty(difficulty);
 
         },
 
@@ -206,6 +209,7 @@ const game = {
             const startButton = document.querySelector(`.startButton`);
 
             this.startButtonHoverEvent(startButton);
+            this.startButtonClickEvent(startButton);
 
         },
 
@@ -217,6 +221,33 @@ const game = {
             button.addEventListener(`mouseenter`, (e) => button.style.backgroundColor = `rgba(0,0,0,.4)`);
 
             button.addEventListener(`mouseleave`, (e) => button.style.backgroundColor = `rgba(0,0,0,0.2)`);
+
+        },
+
+        /**
+         *  Sets click events for startButton
+         * @param {HTML element} button
+         */
+        startButtonClickEvent(button) {
+
+            button.addEventListener(`click`, () => {
+
+
+
+            });
+
+        },
+
+
+        /**
+         * Sets select option change event
+         * @param {string} difficulty
+         */
+        selectDifficulty(difficulty) {
+
+            const difficultySelect = document.querySelector(`.difficultySelect`);
+
+            difficultySelect.addEventListener(`change`, (e) => difficulty = e.target.value);
 
         }
 
