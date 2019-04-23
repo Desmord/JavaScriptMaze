@@ -40,6 +40,9 @@ const game = {
         // Adding container containing game element to given parent html element
         this.parentElement.appendChild(container);
 
+        // Setting evetns
+        this.eventsManager.setEvents();
+
     },
 
 
@@ -128,6 +131,19 @@ const game = {
             // Adding css styles to element
             this.addStyles(this.difficultySelectStyle, element);
 
+            // Creating difficulty options
+            let optionEasy = document.createElement(`option`);
+            optionEasy.appendChild(document.createTextNode(`Easy`));
+            let optionNormal = document.createElement(`option`);
+            optionNormal.appendChild(document.createTextNode(`Normal`));
+            let optionHard = document.createElement(`option`);
+            optionHard.appendChild(document.createTextNode(`Hard`));
+
+            element.add(optionEasy);
+            element.add(optionNormal);
+            element.add(optionHard);
+
+            element.classList.add(`difficultySelect`);
 
             return element
 
@@ -146,6 +162,8 @@ const game = {
             // Adding css styles to element
             this.addStyles(this.startButtonStyle, element);
 
+            element.classList.add(`startButton`);
+
             return element
 
         },
@@ -161,9 +179,48 @@ const game = {
             // Adding css styles to element
             this.addStyles(this.gameBoardStyle, element);
 
+            element.classList.add(`gameBoard`);
+
             return element
 
         }
+
+    },
+
+    eventsManager: {
+
+        /**
+         *  Sets all elements events
+         */
+        setEvents() {
+
+            this.startButton();
+
+        },
+
+        /**
+         * Sets all start button events
+         */
+        startButton() {
+
+            const startButton = document.querySelector(`.startButton`);
+
+            this.startButtonHoverEvent(startButton);
+
+        },
+
+        /**
+         * Start button hover event
+         */
+        startButtonHoverEvent(button) {
+
+            button.addEventListener(`mouseenter`, (e) => button.style.backgroundColor = `rgba(0,0,0,.4)`);
+
+            button.addEventListener(`mouseleave`, (e) => button.style.backgroundColor = `rgba(0,0,0,0.2)`);
+
+        }
+
+
 
     }
 
