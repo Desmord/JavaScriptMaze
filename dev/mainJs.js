@@ -22,12 +22,14 @@ const game = {
         this.width = width;
         this.height = this.width * 1.1;
 
-        // Setting proper elements styles valuse
-        this.htmlElementsCreator.setStyles(this.width, this.height);
         // Creating game to parent element
-        let container = this.htmlElementsCreator.createMainContainer();
+        let container = this.htmlElementsCreator.createMainContainer(this.width, this.height);
         //  Creating div to store menu elements
         let div = document.createElement(`div`);
+        div.style.width = `${this.width * 0.6}px`;
+        div.style.height = `${this.height * 0.05}px`;
+        div.style.margin = `20px 10px`;
+
         // Creating and adding menu elements to store div
         div.appendChild(this.htmlElementsCreator.createDifficultyLevelSelectElement());
         div.appendChild(this.htmlElementsCreator.createStartGameElement());
@@ -63,45 +65,25 @@ const game = {
             fontWeight: `700`,
             display: `flex`,
             justifyContent: `center`,
-            alignItems: `center`
+            alignItems: `center`,
+            width: `40%`,
+            height: `100%`
         },
 
         difficultySelectStyle: {
             backgroundColor: `rgba(255,255,255,1)`,
-            margin: `10px 10px`
+            margin: `10px 10px`,
+            width: `40%`,
+            height: `100%`
         },
 
         gameBoardStyle: {
             backgroundColor: `rgba(255,255,255,1)`,
-            margin: `10px 10px`
+            margin: `10px 10px`,
+            width: `90%`,
+            height: `80%`
         },
 
-        /**
-       *  Calculating proper css values of css styles
-       * @param {number} width
-       * @param {number} height
-       */
-        setStyles(width, height) {
-
-            this.setStyleProperValues(this.containerStyle, width, height);
-            this.setStyleProperValues(this.startButtonStyle, width * 0.3, height * 0.05);
-            this.setStyleProperValues(this.difficultySelectStyle, width * 0.3, height * 0.05);
-            this.setStyleProperValues(this.gameBoardStyle, width * 0.9, width * 0.9);
-
-        },
-
-        // Calculates style values depending on width and height
-        setStyleProperValues(style, width, height) {
-
-            style.width = `${width}px`;
-            style.height = `${height}px`;
-
-            // Calculate font size if style has fontSize property in it
-            if (`fontSize` in style) {
-                style.fontSize = `${width * 0.13}px`;
-            }
-
-        },
 
         /**
          *  Add given css styles to given html element
@@ -122,11 +104,13 @@ const game = {
          * @param {number} height
          * @return {HTML element}
          */
-        createMainContainer() {
+        createMainContainer(width, height) {
 
             let element = document.createElement(`div`);
             // Adding css styles to element
             this.addStyles(this.containerStyle, element);
+            element.style.width = `${width}px`;
+            element.style.height = `${height}px`;
 
             return element;
 
@@ -143,6 +127,7 @@ const game = {
             let element = document.createElement(`select`);
             // Adding css styles to element
             this.addStyles(this.difficultySelectStyle, element);
+
 
             return element
 
