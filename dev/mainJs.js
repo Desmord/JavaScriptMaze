@@ -281,7 +281,7 @@ const game = {
             maze[startX][startY].init = true;
 
 
-
+            console.log(this.wygenerujProby(maze));
 
             // this.setWall(this.getCell(maze, 0, 0), `up`);
             // this.setWall(this.getCell(maze, 0, 0), `down`);
@@ -373,6 +373,32 @@ const game = {
             cell.walls.down = false;
             cell.walls.left = false;
             cell.walls.right = false;
+        },
+
+
+        ///--------------------------
+
+
+        wygenerujProby(maze) {
+
+            let newMaze = []
+
+
+            // Creating maze cells
+            for (let i = 0; i < maze.length * 2; i++) {
+                let m = [];
+                for (let j = 0; j < maze.length * 2; j++) {
+
+                    // sparawdzamy czy  i /2 i co drugoi nadajmey sciane czy nie
+
+                    m.push(` `)
+
+                }
+                newMaze.push(m)
+            }
+
+            return newMaze
+
         }
 
         // ----------------------------------------------------------------------------------
