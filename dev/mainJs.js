@@ -43,6 +43,10 @@ const game = {
         // Setting evetns
         this.eventsManager.setEvents(this.difficultyLevel);
 
+
+        ///Proba generatora maze
+        console.log(this.eventsManager.maze(10));
+
     },
 
 
@@ -270,25 +274,106 @@ const game = {
 
             let maze = [];
 
-            // Creating maze empty cells
+            // Filling maze with empty cells
+            this.setEmptyMazeCells(maze, difficulty);
+
+            // Setting start position
+            maze[startX][startY].init = true;
+
+
+
+
+            // this.setWall(this.getCell(maze, 0, 0), `up`);
+            // this.setWall(this.getCell(maze, 0, 0), `down`);
+
+            // this.clearWall(this.getCell(maze, 0, 0), `down`);
+
+            // console.log(this.getNeighbors(maze, 1, 0, difficulty));
+
+
+            // console.log(cell);
+            // console.log(this.getCell(maze, 0, 0));
+            // console.log(maze[0][1]);
+
+        },
+
+        setEmptyMazeCells(maze, difficulty) {
+
+            // Creating maze cells
             for (let i = 0; i < difficulty; i++) {
                 let m = [];
                 for (let j = 0; j < difficulty; j++) {
 
-                    m.push(null)
+                    let cell = {
+                        init: false,
+                        walls: {
+                            up: false,
+                            down: false,
+                            left: false,
+                            right: false
+                        }
+                    }
+
+                    m.push(cell)
 
                 }
                 maze.push(m)
             }
 
+        },
 
+        getNeighbors(maze, x, y, difficulty) {
 
+            let neighbors = {
+                up: null,
+                down: null,
+                left: null,
+                right: null
+            }
 
+            // Out of maze
+            if (x < 0 || y < 0 || x > difficulty - 1 || y > difficulty - 1) {
+                return false;
 
+                // If within range of maze
+            } else {
 
-            console.log(maze[0][1]);
+                neighbors.up = ((y - 1) >= 0) ? this.getCell(maze, x, y - 1) : null
+                neighbors.down = ((y + 1) < difficulty) ? this.getCell(maze, x, y + 1) : null
+                neighbors.left = ((x - 1) >= 0) ? this.getCell(maze, x - 1, y) : null
+                neighbors.right = ((x + 1) < difficulty) ? this.getCell(maze, x + 1, y) : null
+
+            }
+
+            return neighbors;
 
         },
+
+        getCell(maze, x, y) {
+            return maze[x][y];
+        },
+
+        setWall(cell, direction) {
+            cell.walls[`${direction}`] = true;
+        },
+
+        clearWall(cell, direction) {
+            cell.walls[`${direction}`] = false;
+        },
+
+        setAllWalls(cell) {
+            cell.walls.up = true;
+            cell.walls.down = true;
+            cell.walls.left = true;
+            cell.walls.right = true;
+        },
+
+        clearAllWalls(cell) {
+            cell.walls.up = false;
+            cell.walls.down = false;
+            cell.walls.left = false;
+            cell.walls.right = false;
+        }
 
         // ----------------------------------------------------------------------------------
         // ----------------------------------------------------------------------------------
