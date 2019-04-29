@@ -281,7 +281,8 @@ const game = {
             maze[startX][startY].init = true;
 
 
-            console.log(this.wygenerujProby(maze));
+            this.wygenerujProby(maze);
+            // console.log(this.wygenerujProby(maze));
 
             // this.setWall(this.getCell(maze, 0, 0), `up`);
             // this.setWall(this.getCell(maze, 0, 0), `down`);
@@ -377,29 +378,77 @@ const game = {
 
 
         ///--------------------------
+        ///--------------------------
+        ///--------------------------
+        ///--------------------------
 
 
         wygenerujProby(maze) {
 
-            let newMaze = []
+            // let newMaze = []
 
+            maze[0][2].walls.left = true;
+            maze[0][7].walls.left = true;
+            maze[0][7].walls.right = true;
+            maze[0][7].walls.up = true;
+            maze[0][7].walls.down = true;
 
-            // Creating maze cells
-            for (let i = 0; i < maze.length * 2; i++) {
-                let m = [];
-                for (let j = 0; j < maze.length * 2; j++) {
+            // Creating maze cells // y
+            for (let i = 0; i < maze.length; i++) {
+                let mazeStringUp = ` `;
+                let mazeStringDown = ` `;
+                let mazeString = ` `;
+                for (let j = 0; j < maze.length; j++) {
 
-                    // sparawdzamy czy  i /2 i co drugoi nadajmey sciane czy nie
+                    mazeStringDown = mazeStringDown + ` `;
+                    mazeString = mazeString + ` `;
+                    mazeStringUp = mazeStringUp + ` `;
 
-                    m.push(` `)
+                    if (maze[i][j].walls.left) {
+                        mazeString = mazeString.substr(0, mazeString.length - 1) + `|`
+                    }
+
+                    if (maze[i][j].walls.right) {
+                        mazeString = mazeString + ` |`;
+                    }
+
+                    if (maze[i][j].walls.up) {
+                        mazeStringUp = mazeStringUp + `-`;
+                    }
+
+                    // if (maze[i][j].walls.left) {
+                    //     mazeString = mazeString + `|`
+                    // } else {
+                    //     mazeString = mazeString + ` `
+                    // }
+
+                    // if (maze[i][j].walls.left) {
+                    //     mazeString = mazeString + `|`
+                    // } else {
+                    //     mazeString = mazeString + ` `
+                    // }
+
+                    // if (maze[i][j].walls.left) {
+                    //     mazeString = mazeString + `|`
+                    // } else {
+                    //     mazeString = mazeString + ` `
+                    // }
 
                 }
-                newMaze.push(m)
+                console.log(mazeStringUp);
+                console.log(mazeString);
+                console.log(mazeStringDown);
+                // newMaze.push(m)
             }
 
-            return newMaze
+            // console.log(mazeString.substr(mazeString.length-1,1));
+            // console.log(newMaze);
+            // return newMaze
+
+            // console.log(mazeString);
 
         }
+
 
         // ----------------------------------------------------------------------------------
         // ----------------------------------------------------------------------------------
