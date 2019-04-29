@@ -5,14 +5,15 @@ const game = {
     parentElement: null,
     width: `500px`,
     height: `600px`,
-    difficultyLevel: `Easy`,
+    difficultyLevel: 10,
     maze: [],
-    playerPosition: [1, 1],
+    path: [],
+    playerPosition: [0, 0],
     endPosition: [9, 9],
     numberOfPlayerMoves: 0,
 
     /**
-     * Generate and add game element no site
+     * Generate and add game element no site, adds elements events
      * @param {HTML element} parentElement
      * @param {number} width
      */
@@ -43,9 +44,10 @@ const game = {
         // Setting evetns
         this.eventsManager.setEvents(this.difficultyLevel);
 
+        // Setting maze cells
+        this.maze = this.mazeManager.createMaze(this.difficultyLevel);
+        this.path = this.mazeManager.createMazePath(this.difficultyLevel);
 
-        ///Proba generatora maze
-        console.log(this.eventsManager.maze(10));
 
     },
 
@@ -189,7 +191,8 @@ const game = {
 
             return element
 
-        }
+        },
+
 
     },
 
@@ -253,72 +256,121 @@ const game = {
 
             difficultySelect.addEventListener(`change`, (e) => difficulty = e.target.value);
 
-        },
-
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-
-        maze(difficulty) {
-            //zmienic pozwiom
-            const startX = 0,
-                startY = 0,
-                endX = difficulty - 1,
-                endY = difficulty - 1;
-
-            let maze = [];
-
-            // Filling maze with empty cells
-            this.setEmptyMazeCells(maze, difficulty);
-
-
-            console.log(maze);
-
-        },
-
-        setEmptyMazeCells(maze, difficulty) {
-
-            // Creating maze cells
-            for (let i = 0; i < difficulty; i++) {
-                let m = [];
-                for (let j = 0; j < difficulty; j++) {
-
-                    let emptyCell = false;
-
-                    m.push(emptyCell)
-
-                }
-                maze.push(m)
-            }
-
-        },
-
-        setWall(cell) {
-            cell = false;
-        },
-
-        setPath(cell) {
-            cell = true;
         }
 
 
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
-        // ----------------------------------------------------------------------------------
+    },
 
+    mazeManager: {
 
+        createMaze(difficulty) {
+
+            let maze = [];
+
+            for (let i = 0; i < difficulty; i++) {
+                let mazeRow = [];
+                for (let j = 0; j < difficulty; j++) {
+
+                    mazeRow.push(this.createCell())
+
+                }
+                maze.push(mazeRow)
+            }
+
+            return maze;
+
+        },
+
+        /**
+         * Creating maze cell
+         * @return {object}
+         */
+        createCell() {
+            return {
+                up: this.rollIfWall(),
+                down: this.rollIfWall(),
+                left: this.rollIfWall(),
+                right: this.rollIfWall()
+            }
+        },
+
+        /**
+         * Rolls if wall or not
+         * @return {boolean}
+         */
+        rollIfWall() {
+            return (Math.floor((Math.random() * 2) + 1)) == 1 ? true : false;
+        },
+
+        /**
+         * Creating maze path
+         * @param {number} difficulty level
+         * @return {array} array with path corridinates
+         */
+        createMazePath(difficulty) {
+
+            let path = []
+            let currentCell = { x: 0, y: 0 };
+
+            while ((currentCell.x != difficulty - 1) || (currentCell.y != difficulty - 1)) {
+
+                let direction = this.rollPathDirection();
+
+                if (direction == `D`) {
+
+                    if (currentCell.y == difficulty - 1) {
+                        currentCell.x++
+                    } else {
+                        currentCell.y++
+                    }
+
+                } else {
+
+                    if (currentCell.x == difficulty - 1) {
+                        currentCell.y++
+                    } else {
+                        currentCell.x++
+                    }
+
+                }
+
+                let pathCell = {
+                    x: currentCell.x,
+                    y: currentCell.y
+                }
+
+                path.push(pathCell);
+
+            }
+
+            return path;
+        },
+
+        /**
+         * Roll down/right path direction
+         * @return {string} direction
+         */
+        rollPathDirection() {
+            return (Math.floor((Math.random() * 2) + 1)) == 1 ? `D` : `R`;
+        },
+
+        setPath(maze, path) {
+
+            path.forEach((pathCell, index, arr) => {
+
+                if (arr[index - 1]) {
+                    if (pathCell.x != arr[index - 1].x) {
+                        maze[pathCell.x][pathCell.y].up = true;
+                        maze[pathCell.x - 1][pathCell.y].down = true;
+                    } else {
+                        maze[pathCell.x][pathCell.y].left = true;
+                        maze[pathCell.x][pathCell.y - 1].right = true;
+                    }
+                }
+
+            })
+
+        }
 
     }
 
