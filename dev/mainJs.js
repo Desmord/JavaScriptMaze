@@ -277,24 +277,8 @@ const game = {
             // Filling maze with empty cells
             this.setEmptyMazeCells(maze, difficulty);
 
-            // Setting start position
-            maze[startX][startY].init = true;
 
-
-            this.wygenerujProby(maze);
-            // console.log(this.wygenerujProby(maze));
-
-            // this.setWall(this.getCell(maze, 0, 0), `up`);
-            // this.setWall(this.getCell(maze, 0, 0), `down`);
-
-            // this.clearWall(this.getCell(maze, 0, 0), `down`);
-
-            // console.log(this.getNeighbors(maze, 1, 0, difficulty));
-
-
-            // console.log(cell);
-            // console.log(this.getCell(maze, 0, 0));
-            // console.log(maze[0][1]);
+            console.log(maze);
 
         },
 
@@ -305,17 +289,9 @@ const game = {
                 let m = [];
                 for (let j = 0; j < difficulty; j++) {
 
-                    let cell = {
-                        init: false,
-                        walls: {
-                            up: false,
-                            down: false,
-                            left: false,
-                            right: false
-                        }
-                    }
+                    let emptyCell = false;
 
-                    m.push(cell)
+                    m.push(emptyCell)
 
                 }
                 maze.push(m)
@@ -323,130 +299,12 @@ const game = {
 
         },
 
-        getNeighbors(maze, x, y, difficulty) {
-
-            let neighbors = {
-                up: null,
-                down: null,
-                left: null,
-                right: null
-            }
-
-            // Out of maze
-            if (x < 0 || y < 0 || x > difficulty - 1 || y > difficulty - 1) {
-                return false;
-
-                // If within range of maze
-            } else {
-
-                neighbors.up = ((y - 1) >= 0) ? this.getCell(maze, x, y - 1) : null
-                neighbors.down = ((y + 1) < difficulty) ? this.getCell(maze, x, y + 1) : null
-                neighbors.left = ((x - 1) >= 0) ? this.getCell(maze, x - 1, y) : null
-                neighbors.right = ((x + 1) < difficulty) ? this.getCell(maze, x + 1, y) : null
-
-            }
-
-            return neighbors;
-
+        setWall(cell) {
+            cell = false;
         },
 
-        getCell(maze, x, y) {
-            return maze[x][y];
-        },
-
-        setWall(cell, direction) {
-            cell.walls[`${direction}`] = true;
-        },
-
-        clearWall(cell, direction) {
-            cell.walls[`${direction}`] = false;
-        },
-
-        setAllWalls(cell) {
-            cell.walls.up = true;
-            cell.walls.down = true;
-            cell.walls.left = true;
-            cell.walls.right = true;
-        },
-
-        clearAllWalls(cell) {
-            cell.walls.up = false;
-            cell.walls.down = false;
-            cell.walls.left = false;
-            cell.walls.right = false;
-        },
-
-
-        ///--------------------------
-        ///--------------------------
-        ///--------------------------
-        ///--------------------------
-
-
-        wygenerujProby(maze) {
-
-            // let newMaze = []
-
-            maze[0][2].walls.left = true;
-            maze[0][7].walls.left = true;
-            maze[0][7].walls.right = true;
-            maze[0][7].walls.up = true;
-            maze[0][7].walls.down = true;
-
-            // Creating maze cells // y
-            for (let i = 0; i < maze.length; i++) {
-                let mazeStringUp = ` `;
-                let mazeStringDown = ` `;
-                let mazeString = ` `;
-                for (let j = 0; j < maze.length; j++) {
-
-                    mazeStringDown = mazeStringDown + ` `;
-                    mazeString = mazeString + ` `;
-                    mazeStringUp = mazeStringUp + ` `;
-
-                    if (maze[i][j].walls.left) {
-                        mazeString = mazeString.substr(0, mazeString.length - 1) + `|`
-                    }
-
-                    if (maze[i][j].walls.right) {
-                        mazeString = mazeString + ` |`;
-                    }
-
-                    if (maze[i][j].walls.up) {
-                        mazeStringUp = mazeStringUp + `-`;
-                    }
-
-                    // if (maze[i][j].walls.left) {
-                    //     mazeString = mazeString + `|`
-                    // } else {
-                    //     mazeString = mazeString + ` `
-                    // }
-
-                    // if (maze[i][j].walls.left) {
-                    //     mazeString = mazeString + `|`
-                    // } else {
-                    //     mazeString = mazeString + ` `
-                    // }
-
-                    // if (maze[i][j].walls.left) {
-                    //     mazeString = mazeString + `|`
-                    // } else {
-                    //     mazeString = mazeString + ` `
-                    // }
-
-                }
-                console.log(mazeStringUp);
-                console.log(mazeString);
-                console.log(mazeStringDown);
-                // newMaze.push(m)
-            }
-
-            // console.log(mazeString.substr(mazeString.length-1,1));
-            // console.log(newMaze);
-            // return newMaze
-
-            // console.log(mazeString);
-
+        setPath(cell) {
+            cell = true;
         }
 
 
